@@ -73,9 +73,9 @@ class TimeSpan(TimePrimitive):
         self._kml['end'] = end
 
     def __str__(self):
-        buf = ['<TimeSpan id="{0}">'.format(self._id),
+        buf = ['<TimeSpan{0}>'.format(' id="{0}"'.format(self._id) if self._id is not None else ''),
                super(TimeSpan, self).__str__(),
-               '</TimeSpan>'.format(self._id)]
+               '</TimeSpan>']
         return "".join(buf)
 
 
@@ -108,9 +108,9 @@ class GxTimeSpan(TimeSpan):
         super(GxTimeSpan, self).__init__(**kwargs)
 
     def __str__(self):
-        buf = ['<gx:TimeSpan id="{0}">'.format(self._id),
+        buf = ['<gx:TimeSpan{0}>'.format(' id="{0}"'.format(self._id) if self._id is not None else ''),
                super(TimeSpan, self).__str__(),
-               '</gx:TimeSpan>'.format(self._id)]
+               '</gx:TimeSpan>']
         return "".join(buf)
 
 
@@ -143,9 +143,9 @@ class TimeStamp(TimePrimitive):
         self._kml['when'] = when
 
     def __str__(self):
-        buf = ['<TimeStamp id="{0}">'.format(self._id),
+        buf = ['<TimeStamp{0}>'.format(' id="{0}"'.format(self._id) if self._id is not None else ''),
                super(TimeStamp, self).__str__(),
-               '</TimeStamp>'.format(self._id)]
+               '</TimeStamp>']
         return "".join(buf)
 
 
@@ -178,7 +178,7 @@ class GxTimeStamp(TimeStamp):
         super(GxTimeStamp, self).__init__(**kwargs)
 
     def __str__(self):
-        buf = ['<gx:TimeStamp id="{0}">'.format(self._id),
+        buf = ['<gx:TimeStamp{0}>'.format(' id="{0}"'.format(self._id) if self._id is not None else ''),
                super(TimeStamp, self).__str__(),
-               '</gx:TimeStamp>'.format(self._id)]
+               '</gx:TimeStamp>']
         return "".join(buf)

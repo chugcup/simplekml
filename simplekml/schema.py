@@ -208,9 +208,9 @@ class Schema(Kmlable):
     def __str__(self):
         buf = []
         if self.name is not None:
-            buf.append(u'<Schema name="{0}" id="{1}">'.format(Kmlable._chrconvert(self.name), self._id))
+            buf.append('<Schema name="{0}"{1}>'.format(Kmlable._chrconvert(self.name), ' id="{0}"'.format(self._id) if self._id is not None else ''))
         else:
-            buf.append('<Schema id="{0}">'.format(self._id))
+            buf.append('<Schema{0}>'.format(' id="{0}"'.format(self._id) if self._id is not None else ''))
         for field in self.simplefields:
             buf.append(field.__str__())
         for field in self.gxsimplearrayfields:

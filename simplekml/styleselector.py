@@ -67,7 +67,10 @@ class Style(StyleSelector):
         self._kml["ListStyle"] = liststyle
 
     def __str__(self):
-        return '<Style id="{0}">{1}</Style>'.format(self._id, super(Style, self).__str__())
+        buf = ['<Style{0}>'.format(' id="{0}"'.format(self._id) if self._id is not None else ''),
+               super(Style, self).__str__(),
+               '</Style>']
+        return "".join(buf)
       
     @property
     def iconstyle(self):
@@ -166,17 +169,17 @@ class StyleMap(StyleSelector):
         self.highlightstyle = highlightstyle
 
     def __str__(self):
-        buf = ['<StyleMap id="{0}">'.format(self._id),
+        buf = ['<StyleMap>'.format(' id="{0}"'.format(self._id) if self._id is not None else ''),
                super(StyleMap, self).__str__()]
         if self._pairnormal is not None:
             buf.append("<Pair>")
             buf.append("<key>normal</key>")
-            buf.append("<styleUrl>#{0}</styleUrl>".format(self._pairnormal._id))
+            buf.append("<styleUrl>#{0}</styleUrl>".format(self._pairnormal._global_id))
             buf.append("</Pair>")
         if self._pairhighlight is not None:
             buf.append("<Pair>")
             buf.append("<key>highlight</key>")
-            buf.append("<styleUrl>#{0}</styleUrl>".format(self._pairhighlight._id))
+            buf.append("<styleUrl>#{0}</styleUrl>".format(self._pairhighlight._global_id))
             buf.append("</Pair>")
         buf.append("</StyleMap>")
         return "".join(buf)

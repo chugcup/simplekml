@@ -40,6 +40,7 @@ class Feature(Kmlable):
     """
 
     def __init__(self,
+                 id=None,
                  name=None,
                  visibility=None,
                  open=None,
@@ -58,6 +59,8 @@ class Feature(Kmlable):
                  extendeddata=None,
                  gxballoonvisibility=None):
         super(Feature, self).__init__()
+        if id is not None:
+            self._id = str(id)
         self._kml['name'] = name
         self._kml['visibility'] = visibility
         self._kml['open'] = open
@@ -402,9 +405,8 @@ class Feature(Kmlable):
         for stylemap in self._stylemaps:
             self._addstyle(stylemap.normalstyle)
             self._addstyle(stylemap.highlightstyle)
-        str = '<{0} id="{1}">'.format(self.__class__.__name__, self._id)
+        str = '<{0}{1}>'.format(self.__class__.__name__, ' id="{0}"'.format(self._id) if self._id is not None else '')
         buf.append(str)
-        
 
         for style in self._styles:
             if Kmlable._compiling:
@@ -544,6 +546,8 @@ class Container(Feature):
         """
         feat = cls(**kwargs)
         feat._parent = self
+        if feat._id is not None:
+            feat._id = None     # Only apply 'id' to parent Container
         if isinstance(feat, Geometry):
             self._features.append(feat._placemark)
             feat._parent = self
@@ -750,6 +754,8 @@ class Geometry(Kmlable):
     """
     def __init__(self, **kwargs):
         super(Geometry, self).__init__()
+        if kwargs.get('id') is not None:
+            self._id = str(kwargs['id'])
         self._placemark = Placemark(**kwargs)
         self._placemark.geometry = self
         self._parent = None
@@ -1172,7 +1178,10 @@ class LinearRing(PointGeometry):
         self._kml['gx:altitudeOffset'] = offset
 
     def __str__(self):
-        return '<LinearRing id="{0}">{1}</LinearRing>'.format(self._id, super(LinearRing, self).__str__())
+        buf = ['<LinearRing{0}>'.format(' id="{0}"'.format(self._id) if self._id is not None else ''),
+               super(LinearRing, self).__str__(),
+               '</LinearRing>']
+        return "".join(buf)
 
 
 class Point(PointGeometry):
@@ -1260,7 +1269,10 @@ class Point(PointGeometry):
         self._kml['gx:altitudeMode'] = mode
 
     def __str__(self):
-        return '<Point id="{0}">{1}</Point>'.format(self._id, super(Point, self).__str__())
+        buf = ['<Point{0}>'.format(' id="{0}"'.format(self._id) if self._id is not None else ''),
+               super(Point, self).__str__(),
+               '</Point>']
+        return "".join(buf)
 
 
 class LineString(PointGeometry):
@@ -1372,7 +1384,10 @@ class LineString(PointGeometry):
         self._kml['gx:drawOrder'] = gxdraworder
 
     def __str__(self):
-        return '<LineString id="{0}">{1}</LineString>'.format(self._id, super(LineString, self).__str__())
+        buf = ['<LineString{0}>'.format(' id="{0}"'.format(self._id) if self._id is not None else ''),
+               super(LineString, self).__str__(),
+               '</LineString>']
+        return "".join(buf)
 
 
 class Polygon(Geometry):
@@ -1497,7 +1512,10 @@ class Polygon(Geometry):
         self._kml['outerBoundaryIs'] = LinearRing(coords)
 
     def __str__(self):
-        return '<Polygon id="{0}">{1}</Polygon>'.format(self._id, super(Polygon, self).__str__())
+        buf = ['<Polygon{0}>'.format(' id="{0}"'.format(self._id) if self._id is not None else ''),
+               super(Polygon, self).__str__(),
+               '</Polygon>']
+        return "".join(buf)
 
 
 class MultiGeometry(Geometry):
@@ -1610,7 +1628,7 @@ class MultiGeometry(Geometry):
         return self._newfeature(Model, **kwargs)
 
     def __str__(self):
-        buf = ['<MultiGeometry id="{0}">'.format(self._id),
+        buf = ['<MultiGeometry{0}>'.format(' id="{0}"'.format(self._id) if self._id is not None else ''),
                super(MultiGeometry, self).__str__()]
         for geom in self._geometries:
             buf.append(geom.__str__())
@@ -2130,7 +2148,10 @@ class Model(Geometry):
         self._kml['ResourceMap'] = resourcemap
 
     def __str__(self):
-        return '<Model id="{0}">{1}</Model>'.format(self._id, super(Model, self).__str__())
+        buf = ['<Model{0}>'.format(' id="{0}"'.format(self._id) if self._id is not None else ''),
+               super(Model, self).__str__(),
+               '</Model>']
+        return "".join(buf)
 
 
 class GxTrack(Geometry):
@@ -2385,7 +2406,7 @@ class GxMultiTrack(Geometry):
         return self.tracks[-1]
 
     def __str__(self):
-        buf = ['<gx:MultiTrack id="{0}">'.format(self._id),
+        buf = ['<gx:MultiTrack{0}>'.format(' id="{0}"'.format(self._id) if self._id is not None else ''),
                super(GxMultiTrack, self).__str__()]
         for track in self.tracks:
             buf.append(track.__str__())

@@ -133,9 +133,9 @@ class Link(Kmlable):
         self._kml['httpQuery'] = httpquery
 
     def __str__(self):
-        buf = ['<Link id="{0}">'.format(self._id),
+        buf = ['<Link{0}>'.format(' id="{0}"'.format(self._id) if self._id is not None else ''),
                super(Link, self).__str__(),
-               '</Link>'.format(self._id)]
+               '</Link>']
         return "".join(buf)
 
 
@@ -203,9 +203,9 @@ class Icon(Link):
         self._kml['gx:h'] = gxh
 
     def __str__(self):
-        buf = ['<Icon id="{0}">'.format(self._id),
+        buf = ['<Icon{0}>'.format(' id="{0}"'.format(self._id) if self._id is not None else ''),
                super(Link, self).__str__(),
-               '</Icon>'.format(self._id)]
+               '</Icon>']
         return "".join(buf)
 
 

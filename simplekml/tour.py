@@ -66,9 +66,9 @@ class GxSoundCue(GxTourPrimitive):
         self._kml['gx:delayedStart'] = gxdelayedstart
 
     def __str__(self):
-        buf = ['<gx:SoundCue id="{0}">'.format(self._id),
+        buf = ['<gx:SoundCue{0}>'.format(' id="{0}"'.format(self._id) if self._id is not None else ''),
                super(GxSoundCue, self).__str__(),
-               '</gx:SoundCue>'.format(self._id)]
+               '</gx:SoundCue>']
         return "".join(buf)
 
 
@@ -92,9 +92,9 @@ class GxTourControl(GxTourPrimitive):
         self._kml['gx:playMode'] = gxplaymode
 
     def __str__(self):
-        buf = ['<gx:TourControl id="{0}">'.format(self._id),
+        buf = ['<gx:TourControl{0}>'.format(' id="{0}"'.format(self._id) if self._id is not None else ''),
                super(GxTourControl, self).__str__(),
-               '</gx:TourControl>'.format(self._id)]
+               '</gx:TourControl>']
         return "".join(buf)
 
 
@@ -118,8 +118,9 @@ class GxWait(GxTourPrimitive):
         self._kml['gx:duration'] = gxduration
 
     def __str__(self):
-        buf = ['<gx:Wait id="{0}">'.format(self._id),
-               super(GxWait, self).__str__(), '</gx:Wait>'.format(self._id)]
+        buf = ['<gx:Wait{0}>'.format(' id="{0}"'.format(self._id) if self._id is not None else ''),
+               super(GxWait, self).__str__(),
+               '</gx:Wait>']
         return "".join(buf)
 
 
@@ -196,9 +197,9 @@ class GxFlyTo(GxTourPrimitive):
         self._kml['LookAt'] = lookat
 
     def __str__(self):
-        buf = ['<gx:FlyTo id="{0}">'.format(self._id),
+        buf = ['<gx:FlyTo{0}>'.format(' id="{0}"'.format(self._id) if self._id is not None else ''),
                super(GxFlyTo, self).__str__(),
-               '</gx:FlyTo>'.format(self._id)]
+               '</gx:FlyTo>']
         return "".join(buf)
 
 
@@ -304,9 +305,9 @@ class GxAnimatedUpdate(GxTourPrimitive):
         self._kml['Update'] = update
 
     def __str__(self):
-        buf = ['<gx:AnimatedUpdate id="{0}">'.format(self._id),
+        buf = ['<gx:AnimatedUpdate{0}>'.format(' id="{0}"'.format(self._id) if self._id is not None else ''),
                super(GxAnimatedUpdate, self).__str__(),
-               '</gx:AnimatedUpdate>'.format(self._id)]
+               '</gx:AnimatedUpdate>']
         return "".join(buf)
 
 

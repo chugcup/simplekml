@@ -33,8 +33,12 @@ class Kmlable(object):
     _compiling = False
     _namespaces = ['xmlns="http://www.opengis.net/kml/2.2"', 'xmlns:gx="http://www.google.com/kml/ext/2.2"']
     
-    def __init__(self):
-        self._id = str(Kmlable._globalid)
+    def __init__(self, id=None):
+        self._id = None
+        if id is not None:
+            self._id = str(id)
+        # Default "global" ID incrementer
+        self._global_id = str(Kmlable._globalid)
         Kmlable._globalid += 1
         try:
             from collections import OrderedDict

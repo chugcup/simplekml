@@ -60,7 +60,7 @@ class ColorStyle(Kmlable):
         
     def __str__(self):
         buf = []
-        buf.append('<{0} id="{1}">'.format(self.__class__.__name__, self._id))
+        buf.append('<{0}{1}>'.format(self.__class__.__name__, ' id="{0}"'.format(self._id) if self._id is not None else ''))
         buf.append(super(ColorStyle, self).__str__())
         buf.append("</{0}>".format(self.__class__.__name__))
         return "".join(buf)
