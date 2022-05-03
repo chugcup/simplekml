@@ -25,15 +25,17 @@ class Coordinates(object):
     def addcoordinates(self, coords):
         newcoords = []
         for coord in coords:
-            if len(coord) == 2:
-                coord = (coord[0], coord[1], 0.0)
-            newcoords.append(coord)
+            # Cast to float; optionally includes altitude
+            newcoords.append(
+                tuple([float(n) for n in coord[:3]])
+            )
         self._coords += newcoords
 
     def __str__(self):
         buf = []
         if not len(self._coords):
-            return "0.0, 0.0, 0.0"
+            return "0.0,0.0"
         for cd in self._coords:
-            buf.append("{0},{1},{2}".format(cd[0], cd[1], cd[2]))
+            # Returns 2 (LNG,LAT) or 3 (LNG,LAT,ALT) coordinates
+            buf.append(",".join([str(n) for n in cd[:3]]))
         return " ".join(buf)
